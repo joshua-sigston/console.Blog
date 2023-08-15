@@ -31,7 +31,7 @@ const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 const connectDB = async () => {
   try {
     mongoose.set('strictQuery', false);
-    const connection = await mongoose.connect(dbUrl, {
+    const connection = await mongoose.connect(`${dbUrl}`, {
        useNewUrlParser: true, 
        useUnifiedTopology: true,});
     console.log(`database connected: ${connection.connection.host}`);
