@@ -5,11 +5,11 @@
     "node": "v20.0.0"
   },
   "description": "",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "server.js",
-    "dev": "nodemon server.js"
+    "start": "app.js",
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
