@@ -26,7 +26,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   store: MongoStore.create({
-    mongoUrl: process.env.MßONOGDB_URI
+    mongoUrl: process.env.MONOGDB_URI
   })
 }));
 app.use(fileUpload())
@@ -39,6 +39,8 @@ app.set('layout', './layouts/main');
 
 app.use('/', require('./server/routes/main'));
 // app.use('/', require('./server/routes/admin'))
+
+app.use('/.netlify/functions/server', router);
 
 app.listen(PORT, () => {
   console.log(`app is listening on port ${PORT}`);
