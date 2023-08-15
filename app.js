@@ -12,18 +12,61 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // connect DB
-const MongoStore = require('connect-mongo');
-const connectDB = require('./server/config/db');
-connectDB();
 
-app.use(session({
-  secret: 'keyboard cate',
+const MongoStore = require('connect-mongo');
+const mongoose = require('mongoose');
+const dbUrl = process.env.MONOGDB_URI || 'mongodb://localhost:3000';
+const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
+// const connectDB = require('./server/config/db');
+// connectDB();
+
+// app.use(session({
+//   secret: 'keyboard cate',
+//   resave: false,
+//   saveUninitialized: true,
+//   store: MongoStore.create({
+//     mongoUrl: process.env.MONOGDB_URI
+//   })
+// }));
+
+mongoose.connect(dbUrl, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", () => {
+    console.log("Database connected");
+});
+
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+      secret: 'squirrel'
+  }
+});
+
+store.on("error", function (e) {
+  console.log("SESSION STORE ERROR", e)
+})
+
+const sessionConfig = {
+  store,
+  name: 'blog',
+  secret,
   resave: false,
   saveUninitialized: true,
-  store: MongoStore.create({
-    mongoUrl: process.env.MONOGDB_URI
-  })
-}));
+  cookie: {
+      httpOnly: true,
+      // secure: true,
+      expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+      maxAge: 1000 * 60 * 60 * 24 * 7
+  }
+}
+
+app.use(session(sessionConfig));
 
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
