@@ -41,31 +41,40 @@ db.once("open", () => {
     console.log("Database connected");
 });
 
-const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
+app.use(session({
+    secret: 'thisismysecret',
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create( {
+        mongoUrl: dbUrl,
+        touchAfter: 24 * 3600 
+}) }));
 
-const store = MongoStore.create({
-  mongoUrl: dbUrl,
-  touchAfter: 24 * 60 * 60,
-  crypto: {
-      secret: 'squirrel'
-  }
-});
+// const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 
-const sessionConfig = {
-  store,
-  name: 'session',
-  secret,
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-      httpOnly: true,
-      // secure: true,
-      expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-      maxAge: 1000 * 60 * 60 * 24 * 7
-  }
-}
+// const store = MongoStore.create({
+//   mongoUrl: dbUrl,
+//   touchAfter: 24 * 60 * 60,
+//   crypto: {
+//       secret: 'squirrel'
+//   }
+// });
 
-app.use(session(sessionConfig));
+// const sessionConfig = {
+//   store,
+//   name: 'session',
+//   secret,
+//   resave: false,
+//   saveUninitialized: true,
+//   cookie: {
+//       httpOnly: true,
+//       // secure: true,
+//       expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+//       maxAge: 1000 * 60 * 60 * 24 * 7
+//   }
+// }
+
+// app.use(session(sessionConfig));
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 app.use(cookieParser());
@@ -87,5 +96,3 @@ app.use('/.netlify/functions/server', router);
 app.listen(PORT, () => {
   console.log(`app is listening on port ${PORT}`);
 });
-
-export default app;
