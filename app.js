@@ -30,24 +30,24 @@ var mongoose  =  require('mongoose');
 
 const dbUrl = process.env.MONOGDB_URI;
 
-mongoose.connect(dbUrl, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+mongoose.connect(dbUrl,{useNewUrlParser: true, useUnifiedTopology: true}).catch(error => console.log("App.js mongoose.connect error",error));
+
+var db = mongoose.connection;
+db.on('error', console.error);
+db.once('open', function(){
+    console.log("App is connected to DB", db.name)
 });
 
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", () => {
-    console.log("Database connected");
-});
+mongoose.Promise = global.Promise;
 
 app.use(session({
     secret: 'thisismysecret',
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create( {
-        mongoUrl: dbUrl,
-        touchAfter: 24 * 3600 
+    store: MongoStore.create({
+      client: mongoose.connection.getClient(),
+      ttl: 1 * 6 * 60 * 60, 
+      autoRemove: 'native'
 }) }));
 
 // const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
