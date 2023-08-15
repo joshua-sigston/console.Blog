@@ -9,14 +9,7 @@
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, ipsum!</p>
   </div>
 </section>
-<section class="news_feed flex_column">
-  <% articles.forEach(element => { %>
-      <div class="article flex_row">
-        <a href="<%= element.url %>"><p><%= element.name%><p></a>
-        <img src="<%= element.provider[0].image.thumbnail.contentUrl %>" loading="lazy" alt="<%= element.name%>">
-      </div>
-  <% }) %>
-</section>
+
 <section class="latest">
   <h2>Latest Posts</h2>
   <div>
