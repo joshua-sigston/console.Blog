@@ -28,17 +28,30 @@ const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 //     mongoUrl: process.env.MONOGDB_URI
 //   })
 // }));
+const connectDB = async () => {
+  try {
+    mongoose.set('strictQuery', false);
+    const connection = await mongoose.connect(process.env.MONOGDB_URI, {
+       useNewUrlParser: true, 
+       useUnifiedTopology: true,});
+    console.log(`database connected: ${connection.connection.host}`);
+  } catch (error) {
+    console.log(error);
+  }
+}
 
-mongoose.connect(dbUrl, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+connectDB()
 
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", () => {
-    console.log("Database connected");
-});
+// mongoose.connect(dbUrl, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
+
+// const db = mongoose.connection;
+// db.on("error", console.error.bind(console, "connection error:"));
+// db.once("open", () => {
+//     console.log("Database connected");
+// });
 
 const store = MongoStore.create({
   mongoUrl: dbUrl,
