@@ -1,0 +1,8 @@
+# <section class="news_feed flex_column">
+#   <% articles.forEach(element => { %>
+#       <div class="article flex_row">
+#         <a href="<%= element.url %>"><p><%= element.name%><p></a>
+#         <img src="<%= element.provider[0].image.thumbnail.contentUrl %>" loading="lazy" alt="<%= element.name%>">
+#       </div>
+#   <% }) %>
+# </section>
