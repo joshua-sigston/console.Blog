@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 3000;
 
 const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose');
-const dbUrl = process.env.MONOGDB_URI || 'http://localhost:3000';
+const dbUrl = process.env.MONOGDB_URI;
 const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 // const connectDB = require('./server/config/db');
 // connectDB();
