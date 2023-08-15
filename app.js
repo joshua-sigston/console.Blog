@@ -16,19 +16,20 @@ const MongoStore = require('connect-mongo');
 const connectDB = require('./server/config/db');
 connectDB();
 
+app.use(session({
+  secret: 'keyboard cate',
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONOGDB_URI,
+    touchAfter: 24 * 3600 
+  })
+}));
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 app.use(cookieParser());
 app.use(methodOverride('_method'));
 
-app.use(session({
-  secret: 'keyboard cate',
-  resave: false,
-  saveUninitialized: true,
-  store: MongoStore.create({
-    mongoUrl: process.env.MONOGDB_URI
-  })
-}));
 app.use(fileUpload())
 
 app.use(express.static('public'));
