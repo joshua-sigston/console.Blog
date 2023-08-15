@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 
 // connect DB
 const MongoStore = require('connect-mongo');
-var mongoose        =   require('mongoose');
+var mongoose  =  require('mongoose');
 // const connectDB = require('./server/config/db');
 // connectDB();
 
@@ -27,32 +27,45 @@ var mongoose        =   require('mongoose');
 //   })
 // }));
 
-mongoose.connect(process.env.MONOGDB_URI,{useNewUrlParser: true, useUnifiedTopology: true}).catch(error => console.log("App.js mongoose.connect error",error));
 
-var db = mongoose.connection;
-db.on('error', console.error);
-db.once('open', function(){
-    console.log("App is connected to DB", db.name)
+const dbUrl = process.env.MONOGDB_URI;
+
+mongoose.connect(dbUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
 });
-mongoose.Promise = global.Promise;
 
-app.use(session({
-    secret: 'Your secret here',
-    saveUninitialized: false,
-    resave: false,
-    store: MongoStore.create({
-      client: mongoose.connection.getClient(), //  as per the new versioning use client here and you can pass either the link or the same mongoose connection
-      //Use above client if you want to use an existing connection
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", () => {
+    console.log("Database connected");
+});
 
+const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 
-      // mongoUrl:"mongodb://localhost:27017/DBNAME",
-      // or use this mongoUrl if you are passing the database URL straight away
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+      secret: 'squirrel'
+  }
+});
 
-      ttl: 1 * 6 * 60 * 60,  //ttl: 14 * 24 * 60 * 60, //days * hours * minutes * seconds
-      autoRemove: 'native' // Default
-    })
-}));
+const sessionConfig = {
+  store,
+  name: 'session',
+  secret,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+      httpOnly: true,
+      // secure: true,
+      expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+      maxAge: 1000 * 60 * 60 * 24 * 7
+  }
+}
 
+app.use(session(sessionConfig));
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 app.use(cookieParser());
