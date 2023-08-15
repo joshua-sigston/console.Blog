@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const secKey = 'fnsiiw4958nfslno34'
 const tip = require('../helpers/methods')
 const auth = require('../helpers/auth')
-const api = require('../helpers/api')
+// const api = require('../helpers/api')
 
 // GET - homepage
 exports.homepage = async (req, res) => {
@@ -14,21 +14,21 @@ exports.homepage = async (req, res) => {
   // functionality to display weather or not user is logged in for header
   const user = req.session.user_id;
   // gets news articles to display news articles on homepage
-  const articlesData = await api.newsAPI();
+  // const articlesData = await api.newsAPI();
   // gets articles data with images
-  let articles = [];
-  articlesData.forEach( article => {
-    if (article.provider[0].image === 'undefined') {
-      articles.push('no image')
-    } 
+  // let articles = [];
+  // articlesData.forEach( article => {
+  //   if (article.provider[0].image === 'undefined') {
+  //     articles.push('no image')
+  //   } 
 
-    if (article.provider[0].image) {
-      articles.push(article)
-    } 
-  })
+  //   if (article.provider[0].image) {
+  //     articles.push(article)
+  //   } 
+  // })
   // get latests posts to display on homepage
   const posts = await Post.find().sort({createdAt: -1}).limit(6);
-  res.render('home', {user, articles, posts, method})
+  res.render('home', {user, posts, method})
 };
 
 // GET - get about page
