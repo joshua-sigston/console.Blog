@@ -13,68 +13,18 @@ const PORT = process.env.PORT || 3000;
 
 // connect DB
 const MongoStore = require('connect-mongo');
-var mongoose  =  require('mongoose');
-// const connectDB = require('./server/config/db');
-// connectDB();
-
-// app.use(session({
-//   secret: 'keyboard cate',
-//   resave: false,
-//   saveUninitialized: false,
-//   store: MongoStore.create({
-//     mongoUrl: process.env.MONOGDB_URI,
-//     touchAfter: 24 * 3600 
-//   })
-// }));
-
-
-const dbUrl = process.env.MONOGDB_URI;
-
-mongoose.connect(dbUrl,{useNewUrlParser: true, useUnifiedTopology: true}).catch(error => console.log("App.js mongoose.connect error",error));
-
-var db = mongoose.connection;
-db.on('error', console.error);
-db.once('open', function(){
-    console.log("App is connected to DB", db.name)
-});
-
-mongoose.Promise = global.Promise;
+const connectDB = require('./server/config/db');
+connectDB();
 
 app.use(session({
-    secret: 'thisismysecret',
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({
-      client: mongoose.connection.getClient(),
-      ttl: 1 * 6 * 60 * 60, 
-      autoRemove: 'native'
-}) }));
+  secret: 'keyboard cate',
+  resave: false,
+  saveUninitialized: true,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONOGDB_URI
+  })
+}));
 
-// const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
-
-// const store = MongoStore.create({
-//   mongoUrl: dbUrl,
-//   touchAfter: 24 * 60 * 60,
-//   crypto: {
-//       secret: 'squirrel'
-//   }
-// });
-
-// const sessionConfig = {
-//   store,
-//   name: 'session',
-//   secret,
-//   resave: false,
-//   saveUninitialized: true,
-//   cookie: {
-//       httpOnly: true,
-//       // secure: true,
-//       expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-//       maxAge: 1000 * 60 * 60 * 24 * 7
-//   }
-// }
-
-// app.use(session(sessionConfig));
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 app.use(cookieParser());
