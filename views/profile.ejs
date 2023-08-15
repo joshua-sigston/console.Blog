@@ -1,0 +1,26 @@
+<section class="profile grid container">
+  <div class="user_info flex_column">
+    <h1><%= user.username %></h1>
+    <img src="/uploads/<%= user.image %>" alt="sdfasef">
+    <div class="bio">
+      <h5>About Me</h5>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur aperiam aliquid voluptas omnis nemo aspernatur.</p>
+    </div>
+  </div>
+
+  <div class="user_posts flex_column">
+    <h4>My Additions</h4>
+    <% userPosts.forEach(post => { %>
+      <a href="/post/<%= post._id %>" class="flex_row">
+        <h4><%= post.title %></h4>
+        <div class="btns_container flex_row">
+          <a href="/edit_post/<%= post._id %>" class="edit flex_row">Edit</a>
+          <form action="/delete_post/<%= post._id %>?_method=DELETE" method="POST">
+            <button class="delete">Delete</button>
+          </form>
+        </div>
+      </a>
+    <% }) %>
+    <a href="/create_post">Create a new post</a>
+  </div>
+</section>

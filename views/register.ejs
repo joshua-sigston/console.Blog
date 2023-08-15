@@ -1,0 +1,14 @@
+<section class="register grid">
+  <h1>Register</h1>
+  <form action="/register" method="POST" enctype="multipart/form-data" class="flex_column">
+    <input type="text" name="username" placeholder="Enter Username">
+    <input type="email" name="email" placeholder="Enter email">
+    <input type="password" name="password" placeholder="Enter Password">
+    <textarea name="bio" id="bio" cols="30" rows="5" placeholder="short bio"></textarea>
+    <div class="upload_img flex_column">
+      <label for="upload-image">Upload Image <span>(optional)</span></label>
+      <input type="file" name="uploadImage" id="upload-image" accept="image/*"  multiple>
+    </div>
+    <button>Register</button>
+  </form>
+</section>

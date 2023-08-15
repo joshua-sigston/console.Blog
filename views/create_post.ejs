@@ -1,0 +1,21 @@
+<section class="create grid">
+  <h1>Create Post</h1>
+  <a href="/profile" class="back">&larr; Back</a>
+
+<form action="/create_post" method="POST" enctype="multipart/form-data" class="grid">
+
+  <label for="title"><b>Title</b></label>
+  <input type="text" name="title">
+
+  <label for="body"><b>Content</b></label>
+  <textarea name="body" cols="50" rows="10"></textarea>
+  <div>
+    <label for="upload-image">Upload Image
+        <input type="file" name="uploadImage" id="upload-image" accept="image/*" multiple>
+    </label>
+  </div>
+
+  <input type="submit" value="Add" class="btn">
+
+</form>
+</section>

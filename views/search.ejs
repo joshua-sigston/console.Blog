@@ -1,0 +1,11 @@
+<h1>search page</h1>
+<ul class="post_list"></ul>
+    <% data.forEach(post => { %>
+      <li>
+        <a href="/post/<%= post._id %>" class="flex_row">
+          <h3><%= post.title %></h3>
+          <span><%= post.createdAt.toDateString() %></span>
+        </a>
+      </li>
+    <% }) %>
+  </ul>

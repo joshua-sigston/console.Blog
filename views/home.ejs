@@ -1,0 +1,36 @@
+<section class="hero grid">
+  <div class="top_row left_col flex_column">
+    <div class="title">
+      <h1>Console.<span>B</span>log</h1>
+    </div>
+    <p>Blog for Developers</p>
+  </div>
+  <div class="bottom_row right_col flex_row">
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, ipsum!</p>
+  </div>
+</section>
+<section class="news_feed flex_column">
+  <% articles.forEach(element => { %>
+      <div class="article flex_row">
+        <a href="<%= element.url %>"><p><%= element.name%><p></a>
+        <img src="<%= element.provider[0].image.thumbnail.contentUrl %>" loading="lazy" alt="<%= element.name%>">
+      </div>
+  <% }) %>
+</section>
+<section class="latest">
+  <h2>Latest Posts</h2>
+  <div>
+    <% posts.forEach(element => { %>
+      <div class="latest_post">
+        <a href="/post/<%= element._id %>">
+          <h3><%= element.title%><h3>
+        </a>
+      </div>
+    <% }) %>
+  </div>
+</section>
+<section class="todays_method flex_column">
+  <h4>Today's one line trick</h4>
+  <h5><%= method %></h5>
+</section>
+

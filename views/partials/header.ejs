@@ -1,0 +1,44 @@
+<header class="flex_row">
+  <a href="/" class="logo flex_row" id="logo">
+    <i class="fa-solid fa-blog"></i>
+  </a>
+  <div class="hamburger center_flex" id="hamburger">
+    <div class="patty"></div>
+    <div class="patty"></div>
+    <div class="patty"></div>
+  </div>
+  <nav class="nav_mobile flex_column" id="nav-mobile">
+    <ul>
+      <% if (!user) { %>
+        <div class="links_container flex_column">
+          <a href="/register">Register</a>
+          <a href="/login">Login</a>
+        </div>
+      <% }  else { %>
+      <%  %>
+      <div class="links_container flex_column">
+        <a href="/profile">Profile</a>
+        <a href="/logout">Logout</a>
+      </div>
+      <% } %>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/">Home</a></li>
+    </ul>
+  </nav>
+
+  <nav class="nav_desktop flex_row">
+    <ul class="flex_row">
+      <% if (!user) { %>
+          <a href="/register">Register</a>
+          <a href="/login">Login</a>
+      <% }  else { %>
+      <%  %>
+        <a href="/profile">Profile</a>
+        <a href="/logout">Logout</a>
+      <% } %>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>

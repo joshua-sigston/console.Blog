@@ -1,0 +1,17 @@
+<section>
+  <h2>Your Posts</h2>
+  <a href="/add-post">Add New Post</a>
+  <ul>
+    <% data.forEach(post => { %>
+      <li>
+        <a href="/post/<%= post._id %>" class="flex_row">
+          <h3><%= post.title %></h3>
+          <a href="/edit-post/<%= post._id %>">Edit</a>
+          <form action="/delete-post/<%= post._id %>?_method=DELETE" method="POST">
+            <button>Delete</button>
+          </form>
+        </a>
+      </li>
+    <% }) %>
+  </ul>
+</section>
