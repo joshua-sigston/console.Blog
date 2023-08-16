@@ -16,6 +16,7 @@ const PORT = process.env.PORT || 3000;
 const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
+
 const dbUrl = process.env.MONOGDB_URI;
 const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 // const connectDB = require('./server/config/db');
@@ -31,7 +32,6 @@ const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 // }));
 const connectDB = async () => {
   try {
-    mongoose.set('strictQuery', false);
     const connection = await mongoose.connect(`${dbUrl}`, {
        useNewUrlParser: true, 
        useUnifiedTopology: true,});
