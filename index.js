@@ -38,10 +38,9 @@ const connectDB = async () => {
     console.log(`database connected: ${connection.connection.host}`);
   } catch (error) {
     console.log(error);
+    process.exit(1);
   }
 }
-
-connectDB()
 
 // mongoose.connect(dbUrl, {
 //   useNewUrlParser: true,
@@ -100,6 +99,8 @@ app.use('/', require('./server/routes/main'));
 
 app.use('/.netlify/functions/server', router);
 
-app.listen(PORT, () => {
-  console.log(`app is listening on port ${PORT}`);
-});
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`app is listening on port ${PORT}`);
+  });
+})
